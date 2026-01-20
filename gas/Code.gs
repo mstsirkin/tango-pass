@@ -55,6 +55,8 @@ function routeAction_(payload) {
       return handleTeacherClearRegistrations_(payload);
     case "teacherSetNextLesson":
       return handleTeacherSetNextLesson_(payload);
+    case "teacherCancelNextLesson":
+      return handleTeacherCancelNextLesson_(payload);
     case "ping":
       return jsonResponse_({ ok: true, version: "1.0.0" });
     default:
@@ -227,6 +229,37 @@ function handleTeacherSetNextLesson_(payload) {
   sheet.getRange("A1").setValue(nextLessonISO);
 
   return jsonResponse_({ ok: true, nextLessonISO });
+}
+
+function handleTeacherCancelNextLesson_(payload) {
+  if (!isAdmin_(payload.adminToken)) {
+    return jsonResponse_({ ok: false, error: "Unauthorized" });
+  }
+
+  const sheet = getStudentsSheet_();
+  const range = sheet.getDataRange();
+  const values = range.getValues();
+  const nowIso = new Date().toISOString();
+  let refunded = 0;
+
+  for (let i = 1; i < values.length; i++) {
+    const isRegistered = Boolean(values[i][3]);
+    if (isRegistered) {
+      const lessons = Number(values[i][2]) || 0;
+      values[i][2] = lessons + 1;
+      values[i][3] = false;
+      values[i][4] = "";
+      values[i][5] = nowIso;
+      refunded += 1;
+    }
+  }
+
+  range.setValues(values);
+
+  const config = getConfigSheet_();
+  config.getRange("A1").setValue("");
+
+  return jsonResponse_({ ok: true, refunded });
 }
 
 function getStudentAndConfig_(token) {

@@ -207,7 +207,12 @@
               setStatus(statusEl, "Share canceled.", "error");
             }
           } else {
-            setStatus(statusEl, "Sharing is not supported on this device.", "error");
+            const copied = await copyToClipboard(link);
+            setStatus(
+              statusEl,
+              copied ? "Link copied to clipboard." : "Copy failed. Select the link text and copy.",
+              copied ? "ok" : "error"
+            );
           }
         });
         shareCell.appendChild(shareRowButton);
@@ -240,6 +245,16 @@
     let latestStudentLink = "";
     let latestStudentName = "";
 
+    const copyToClipboard = async (text) => {
+      if (!text) return false;
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
+
     const updateShareButtons = (link, studentName) => {
       latestStudentLink = link || "";
       latestStudentName = studentName || "";
@@ -260,7 +275,12 @@
           setStatus(statusEl, "Share canceled.", "error");
         }
       } else {
-        setStatus(statusEl, "Sharing is not supported on this device.", "error");
+        const copied = await copyToClipboard(latestStudentLink);
+        setStatus(
+          statusEl,
+          copied ? "Link copied to clipboard." : "Copy failed. Select the link text and copy.",
+          copied ? "ok" : "error"
+        );
       }
     });
 
@@ -335,6 +355,16 @@
       try {
         setStatus(statusEl, "Clearing registrations...");
         await postAction("teacherClearRegistrations", { adminToken });
+        await loadStudents("Refreshing list...");
+      } catch (err) {
+        setStatus(statusEl, err.message, "error");
+      }
+    });
+
+    document.getElementById("cancelNextLessonButton").addEventListener("click", async () => {
+      try {
+        setStatus(statusEl, "Canceling next lesson...");
+        await postAction("teacherCancelNextLesson", { adminToken });
         await loadStudents("Refreshing list...");
       } catch (err) {
         setStatus(statusEl, err.message, "error");
