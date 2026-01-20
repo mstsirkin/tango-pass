@@ -150,6 +150,8 @@
     const studentSelect = document.getElementById("studentSelect");
     const registrationsTable = document.getElementById("registrationsTable").querySelector("tbody");
     const nextLessonStatus = document.getElementById("nextLessonStatus");
+    const baseUrl = new URL("..", window.location.href).toString().replace(/\/$/, "");
+    const shareIconPath = "../assets/share.svg";
 
     const loadStudents = async (message) => {
       if (message) setStatus(statusEl, message);
@@ -231,8 +233,6 @@
     const shareButton = document.getElementById("shareStudentLink");
     let latestStudentLink = "";
     let latestStudentName = "";
-
-    const baseUrl = new URL("..", window.location.href).toString().replace(/\/$/, "");
     const shareIconPath = "../assets/share.svg";
 
     const buildStudentLink = (token, studentName) => {
