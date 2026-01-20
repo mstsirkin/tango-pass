@@ -1,14 +1,14 @@
 const CACHE_NAME = "tango-pass-v1";
 const ASSETS = [
-  "/",
-  "/styles.css",
-  "/js/app.js",
-  "/js/config.js",
-  "/manifest.json",
-  "/student/index.html",
-  "/teacher/index.html",
-  "/assets/icon-192.png",
-  "/assets/icon-512.png"
+  "./",
+  "styles.css",
+  "js/app.js",
+  "js/config.js",
+  "manifest.json",
+  "student/index.html",
+  "teacher/index.html",
+  "assets/icon-192.png",
+  "assets/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
