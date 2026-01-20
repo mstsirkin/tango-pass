@@ -151,6 +151,13 @@
     const registrationsTable = document.getElementById("registrationsTable").querySelector("tbody");
     const nextLessonStatus = document.getElementById("nextLessonStatus");
     const baseUrl = new URL("..", window.location.href).toString().replace(/\/$/, "");
+    const shareIconPath = "../assets/share.svg";
+
+    const buildStudentLink = (token, studentName) => {
+      if (!token) return "";
+      const nameParam = studentName ? `&name=${encodeURIComponent(studentName)}` : "";
+      return `${baseUrl}/student/?t=${encodeURIComponent(token)}${nameParam}`;
+    };
 
     const loadStudents = async (message) => {
       if (message) setStatus(statusEl, message);
@@ -232,13 +239,6 @@
     const shareButton = document.getElementById("shareStudentLink");
     let latestStudentLink = "";
     let latestStudentName = "";
-    const shareIconPath = "../assets/share.svg";
-
-    const buildStudentLink = (token, studentName) => {
-      if (!token) return "";
-      const nameParam = studentName ? `&name=${encodeURIComponent(studentName)}` : "";
-      return `${baseUrl}/student/?t=${encodeURIComponent(token)}${nameParam}`;
-    };
 
     const updateShareButtons = (link, studentName) => {
       latestStudentLink = link || "";
