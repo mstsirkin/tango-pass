@@ -180,7 +180,17 @@
         const shareRowButton = document.createElement("button");
         shareRowButton.className = "button secondary";
         shareRowButton.type = "button";
-        shareRowButton.textContent = "🔗";
+        shareRowButton.innerHTML = `
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="img" focusable="false">
+              <circle cx="16" cy="32" r="6"></circle>
+              <circle cx="48" cy="16" r="6"></circle>
+              <circle cx="48" cy="48" r="6"></circle>
+              <line x1="22" y1="30" x2="42" y2="20" stroke-width="4" stroke-linecap="round"></line>
+              <line x1="22" y1="34" x2="42" y2="44" stroke-width="4" stroke-linecap="round"></line>
+            </svg>
+          </span>
+        `;
         shareRowButton.title = "Share student link";
         shareRowButton.addEventListener("click", async () => {
           const link = buildStudentLink(student.token, student.studentName);
