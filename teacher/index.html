@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tango Teacher Console</title>
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="stylesheet" href="../styles.css" />
+    <meta name="theme-color" content="#f6efe6" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="brand">Tango Teacher Console</div>
+        <div class="tag">Admin Access</div>
+      </header>
+
+      <section class="hero">
+        <h1>Manage Tango Lesson Bundles</h1>
+        <p>Add students, adjust lesson balances, and prepare the next class.</p>
+        <div class="status" id="teacherStatus">Loading admin data...</div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>Add Student</h2>
+          <label class="label" for="studentNameInput">Student name</label>
+          <input class="input" id="studentNameInput" placeholder="e.g., Maya" />
+          <button class="button primary" id="addStudentButton">Create student link</button>
+          <div class="status" id="newStudentLink">New link will appear here.</div>
+        </div>
+        <div class="card">
+          <h2>Adjust Lessons</h2>
+          <label class="label" for="studentSelect">Student</label>
+          <select class="select" id="studentSelect"></select>
+          <label class="label" for="lessonDeltaInput">Lesson delta</label>
+          <input class="input" id="lessonDeltaInput" type="number" value="1" />
+          <label class="label" for="allowSubtract">
+            <input id="allowSubtract" type="checkbox" /> Allow subtract
+          </label>
+          <button class="button secondary" id="adjustLessonsButton">Apply adjustment</button>
+        </div>
+        <div class="card">
+          <h2>Next Lesson</h2>
+          <label class="label" for="nextLessonInput">Datetime (local)</label>
+          <input class="input" id="nextLessonInput" type="datetime-local" />
+          <button class="button secondary" id="setNextLessonButton">Set next lesson</button>
+          <div class="status" id="nextLessonStatus">Not set yet.</div>
+        </div>
+      </section>
+
+      <section class="hero">
+        <h2>Registrations</h2>
+        <div class="row">
+          <button class="button secondary" id="refreshButton">Refresh list</button>
+          <button class="button primary" id="clearRegistrationsButton">Clear registrations</button>
+        </div>
+        <table class="table" id="registrationsTable">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Lessons</th>
+              <th>Registered</th>
+              <th>Registered at</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <footer>
+        Tip: share student links privately. They act as the password.
+      </footer>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/app.js"></script>
+  </body>
+</html>

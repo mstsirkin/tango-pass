@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tango Lesson Pass</title>
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="stylesheet" href="../styles.css" />
+    <meta name="theme-color" content="#f6efe6" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="brand">Tango Lesson Pass</div>
+        <div class="tag">Student Access</div>
+      </header>
+
+      <section class="hero">
+        <h1 id="studentGreeting">Welcome</h1>
+        <p>Check your remaining lessons and register for the next tango class.</p>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>Lesson Balance</h2>
+          <div class="label">Lessons remaining</div>
+          <div class="value" id="lessonsRemaining">--</div>
+        </div>
+        <div class="card">
+          <h2>Next Lesson</h2>
+          <div class="label">Schedule</div>
+          <div class="value" id="nextLesson">--</div>
+        </div>
+        <div class="card">
+          <h2>Registration</h2>
+          <div class="label">Status</div>
+          <div class="value" id="registrationStatus">--</div>
+        </div>
+      </section>
+
+      <section class="hero">
+        <div class="row">
+          <button class="button primary" id="registerButton">Register for next lesson</button>
+          <button class="button secondary" id="calendarButton">Add lesson to calendar</button>
+        </div>
+        <div class="status" id="statusMessage">Loading your lesson bundle...</div>
+      </section>
+
+      <footer>
+        Need help? Text your teacher if the link isn’t working.
+      </footer>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/app.js"></script>
+  </body>
+</html>

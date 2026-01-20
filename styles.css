@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+:root {
+  --bg-1: #f6efe6;
+  --bg-2: #f7d8c7;
+  --ink: #1f1b16;
+  --muted: #5f554c;
+  --accent: #d5633d;
+  --accent-2: #2a6f62;
+  --card: #fff8f2;
+  --border: #e2c9b7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(1200px 600px at 10% 0%, var(--bg-2), transparent),
+              radial-gradient(1000px 800px at 90% 10%, #f3c1a7, transparent),
+              linear-gradient(180deg, var(--bg-1), #f9efe6 60%, #fdf6f0);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 18px 60px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-family: "Fraunces", serif;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+}
+
+.tag {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent-2);
+  background: #e3f0ed;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.hero {
+  margin: 22px 0 28px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 12px 40px rgba(94, 66, 49, 0.12);
+  animation: rise 500ms ease;
+}
+
+.hero h1 {
+  font-family: "Fraunces", serif;
+  font-size: 34px;
+  margin: 0 0 8px;
+}
+
+.hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 14px 30px rgba(94, 66, 49, 0.08);
+  animation: float-in 600ms ease;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.value {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 6px 0 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.button.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(213, 99, 61, 0.35);
+}
+
+.button.secondary {
+  background: #fff;
+  border-color: var(--border);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.status {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-top: 12px;
+  background: #fef0e6;
+  border: 1px dashed #f1c1a8;
+}
+
+.status.ok {
+  background: #e7f4ef;
+  border-color: #b9d9d0;
+}
+
+.status.error {
+  background: #ffe9e5;
+  border-color: #f3b9b2;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row > * {
+  flex: 1 1 180px;
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@keyframes rise {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float-in {
+  from { transform: translateY(14px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
