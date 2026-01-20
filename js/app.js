@@ -199,6 +199,51 @@
       }
     });
 
+    const copyButton = document.getElementById("copyStudentLink");
+    const shareButton = document.getElementById("shareStudentLink");
+    let latestStudentLink = "";
+
+    const updateShareButtons = (link) => {
+      latestStudentLink = link || "";
+      const enabled = Boolean(latestStudentLink);
+      copyButton.disabled = !enabled;
+      shareButton.disabled = !enabled;
+      if (!navigator.share) {
+        shareButton.textContent = "Share (copy)";
+      }
+    };
+
+    const copyToClipboard = async (text) => {
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus(statusEl, "Link copied to clipboard.", "ok");
+      } catch (err) {
+        setStatus(statusEl, "Copy failed. Select and copy the link manually.", "error");
+      }
+    };
+
+    copyButton.addEventListener("click", async () => {
+      await copyToClipboard(latestStudentLink);
+    });
+
+    shareButton.addEventListener("click", async () => {
+      if (!latestStudentLink) return;
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Tango Lesson Pass",
+            text: "Here is your tango lesson link:",
+            url: latestStudentLink
+          });
+        } catch (err) {
+          setStatus(statusEl, "Share canceled.", "error");
+        }
+      } else {
+        await copyToClipboard(latestStudentLink);
+      }
+    });
+
     document.getElementById("addStudentButton").addEventListener("click", async () => {
       const nameInput = document.getElementById("studentNameInput");
       const newLink = document.getElementById("newStudentLink");
@@ -217,6 +262,7 @@
         });
         nameInput.value = "";
         setStatus(newLink, data.studentLink || "Student created.", "ok");
+        updateShareButtons(data.studentLink);
         await loadStudents("Refreshing list...");
       } catch (err) {
         setStatus(newLink, err.message, "error");
