@@ -312,8 +312,10 @@ function generateToken_() {
 function jsonResponse_(obj) {
   const output = ContentService.createTextOutput(JSON.stringify(obj));
   output.setMimeType(ContentService.MimeType.JSON);
-  output.setHeader("Access-Control-Allow-Origin", "*");
-  output.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  output.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (typeof output.setHeader === "function") {
+    output.setHeader("Access-Control-Allow-Origin", "*");
+    output.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    output.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
   return output;
 }
