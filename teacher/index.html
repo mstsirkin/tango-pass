@@ -28,8 +28,9 @@
           <input class="input" id="studentNameInput" placeholder="e.g., Maya" />
           <button class="button primary" id="addStudentButton">Create student link</button>
           <div class="row">
-            <button class="button secondary" id="copyStudentLink" disabled>Copy link</button>
-            <button class="button secondary" id="shareStudentLink" disabled>Share link</button>
+            <button class="button secondary" id="shareStudentLink" disabled>
+              <span aria-hidden="true">🔗</span> Share link
+            </button>
           </div>
           <div class="status" id="newStudentLink">New link will appear here.</div>
         </div>
@@ -65,7 +66,7 @@
               <th>Student</th>
               <th>Lessons</th>
               <th>Registered</th>
-              <th>Registered at</th>
+              <th>Share</th>
             </tr>
           </thead>
           <tbody></tbody>

@@ -164,17 +164,42 @@
         studentSelect.appendChild(option);
 
         const row = document.createElement("tr");
-        const cells = [
-          student.studentName || "(unnamed)",
-          student.lessonsRemaining,
-          student.isRegistered ? "Yes" : "No",
-          student.registeredAt || "-"
-        ];
-        cells.forEach((cell) => {
-          const td = document.createElement("td");
-          td.textContent = cell;
-          row.appendChild(td);
+        const nameCell = document.createElement("td");
+        nameCell.textContent = student.studentName || "(unnamed)";
+        row.appendChild(nameCell);
+
+        const lessonsCell = document.createElement("td");
+        lessonsCell.textContent = student.lessonsRemaining;
+        row.appendChild(lessonsCell);
+
+        const registeredCell = document.createElement("td");
+        registeredCell.textContent = student.isRegistered ? "Yes" : "No";
+        row.appendChild(registeredCell);
+
+        const shareCell = document.createElement("td");
+        const shareRowButton = document.createElement("button");
+        shareRowButton.className = "button secondary";
+        shareRowButton.type = "button";
+        shareRowButton.textContent = "🔗";
+        shareRowButton.title = "Share student link";
+        shareRowButton.addEventListener("click", async () => {
+          const link = buildStudentLink(student.token, student.studentName);
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: "Tango Lesson Pass",
+                text: `Tango lesson link for ${student.studentName || "student"}:`,
+                url: link
+              });
+            } catch (err) {
+              setStatus(statusEl, "Share canceled.", "error");
+            }
+          } else {
+            setStatus(statusEl, "Sharing is not supported on this device.", "error");
+          }
         });
+        shareCell.appendChild(shareRowButton);
+        row.appendChild(shareCell);
         registrationsTable.appendChild(row);
       });
 
@@ -199,33 +224,24 @@
       }
     });
 
-    const copyButton = document.getElementById("copyStudentLink");
     const shareButton = document.getElementById("shareStudentLink");
     let latestStudentLink = "";
+    let latestStudentName = "";
 
-    const updateShareButtons = (link) => {
+    const baseUrl = new URL("..", window.location.href).toString().replace(/\/$/, "");
+
+    const buildStudentLink = (token, studentName) => {
+      if (!token) return "";
+      const nameParam = studentName ? `&name=${encodeURIComponent(studentName)}` : "";
+      return `${baseUrl}/student/?t=${encodeURIComponent(token)}${nameParam}`;
+    };
+
+    const updateShareButtons = (link, studentName) => {
       latestStudentLink = link || "";
+      latestStudentName = studentName || "";
       const enabled = Boolean(latestStudentLink);
-      copyButton.disabled = !enabled;
       shareButton.disabled = !enabled;
-      if (!navigator.share) {
-        shareButton.textContent = "Share (copy)";
-      }
     };
-
-    const copyToClipboard = async (text) => {
-      if (!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-        setStatus(statusEl, "Link copied to clipboard.", "ok");
-      } catch (err) {
-        setStatus(statusEl, "Copy failed. Select and copy the link manually.", "error");
-      }
-    };
-
-    copyButton.addEventListener("click", async () => {
-      await copyToClipboard(latestStudentLink);
-    });
 
     shareButton.addEventListener("click", async () => {
       if (!latestStudentLink) return;
@@ -233,14 +249,14 @@
         try {
           await navigator.share({
             title: "Tango Lesson Pass",
-            text: "Here is your tango lesson link:",
+            text: `Tango lesson link for ${latestStudentName || "student"}:`,
             url: latestStudentLink
           });
         } catch (err) {
           setStatus(statusEl, "Share canceled.", "error");
         }
       } else {
-        await copyToClipboard(latestStudentLink);
+        setStatus(statusEl, "Sharing is not supported on this device.", "error");
       }
     });
 
@@ -254,15 +270,15 @@
       }
       try {
         setStatus(newLink, "Creating student link...");
-        const baseUrl = new URL("..", window.location.href).toString().replace(/\/$/, "");
         const data = await postAction("teacherAddStudent", {
           adminToken,
           studentName,
           baseUrl
         });
         nameInput.value = "";
-        setStatus(newLink, data.studentLink || "Student created.", "ok");
-        updateShareButtons(data.studentLink);
+        const studentLink = buildStudentLink(data.token, studentName);
+        setStatus(newLink, studentLink || "Student created.", "ok");
+        updateShareButtons(studentLink, studentName);
         await loadStudents("Refreshing list...");
       } catch (err) {
         setStatus(newLink, err.message, "error");
