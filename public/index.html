@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4efe6" />
+  <title>Solo Tango Pass</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="ambient"></div>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Solo Tango</p>
+        <h1>Lesson Pass</h1>
+        <p class="subtitle">Register for the next class with a single tap.</p>
+      </div>
+      <div class="chip" id="api-chip"></div>
+    </header>
+
+    <section class="panel" id="student-panel">
+      <div class="panel-header">
+        <h2>Student</h2>
+        <span class="tag" id="student-name">No token</span>
+      </div>
+      <div class="grid">
+        <div>
+          <p class="label">Credits available</p>
+          <p class="value" id="credits">-</p>
+        </div>
+        <div>
+          <p class="label">Next lesson</p>
+          <p class="value" id="next-lesson">-</p>
+        </div>
+        <div>
+          <p class="label">Registration window</p>
+          <p class="value" id="registration-open">-</p>
+        </div>
+        <div>
+          <p class="label">You are</p>
+          <p class="value" id="registration-status">-</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="register-btn">Register for next lesson</button>
+        <button class="ghost" id="cancel-btn">Cancel registration</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <a href="/teacher">Teacher access</a>
+    </footer>
+  </main>
+
+  <script src="/config.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

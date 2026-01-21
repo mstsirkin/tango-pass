@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f4efe6;
+  --ink: #231f20;
+  --accent: #d55b3e;
+  --accent-2: #f0b45a;
+  --card: #fffaf3;
+  --muted: #6f6b66;
+  --border: rgba(35, 31, 32, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(213, 91, 62, 0.15), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(240, 180, 90, 0.25), transparent 45%),
+    radial-gradient(circle at 70% 90%, rgba(35, 31, 32, 0.08), transparent 50%);
+  z-index: -1;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  display: grid;
+  gap: 24px;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  margin: 0;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(35, 31, 32, 0.08);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(213, 91, 62, 0.1);
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(35, 31, 32, 0.08);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.value {
+  margin: 6px 0 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+button {
+  font-family: 'Space Grotesk', sans-serif;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button.primary {
+  background: var(--accent);
+  color: white;
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ledger {
+  margin-top: 16px;
+  background: rgba(35, 31, 32, 0.04);
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  padding: 16px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+input,
+select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.helper {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.admin-list {
+  margin-top: 20px;
+}
+
+.overview {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.overview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.overview th,
+.overview td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.overview th {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+}
+
+.footer a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

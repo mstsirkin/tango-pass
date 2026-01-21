@@ -1,0 +1,37 @@
+name = "tango-pass"
+main = "src/worker.js"
+compatibility_date = "2024-09-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tango-pass"
+database_id = "REPLACE_ME"
+
+[env.testing]
+name = "tango-pass-test"
+workers_dev = true
+crons = ["0 3 * * 1"]
+
+[[env.testing.d1_databases]]
+binding = "DB"
+database_name = "tango-pass-test"
+database_id = "ff8e854c-9051-4282-b3bf-6741b639d1b1"
+
+[[env.testing.r2_buckets]]
+binding = "LEDGER_BACKUPS"
+bucket_name = "tango-pass-ledger-backups-test"
+
+[env.production]
+name = "tango-pass-prod"
+workers_dev = true
+crons = ["0 3 * * 1"]
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "tango-pass-prod"
+database_id = "REPLACE_ME_PROD"
+
+[[env.production.r2_buckets]]
+binding = "LEDGER_BACKUPS"
+bucket_name = "tango-pass-ledger-backups-prod"

@@ -1,0 +1,295 @@
+You are an expert full-stack engineer experienced with Cloudflare Workers, D1 (SQLite), and static PWAs.
+
+We will build a minimal but correct system with the following architecture:
+
+Architecture
+
+Frontend: Cloudflare Pages
+
+Plain HTML + CSS + vanilla JavaScript (NO React)
+
+PWA-capable (manifest + service worker)
+
+Backend: Cloudflare Worker
+
+Database: Cloudflare D1 (SQLite)
+
+Auth model:
+
+Students authenticate via secret link token: ?t=TOKEN
+
+Teacher/admin uses a separate admin token
+
+No logins, no cookies, no sessions
+
+Everything must work locally via Wrangler and deploy cleanly.
+
+Domain problem
+
+A tango teacher sells lesson passes (bundles of lessons.
+Students use passes to register for the next lesson.
+
+Rules
+
+Passes are sold in bundles (e.g. 10 lessons).
+
+Each bundle is a lot with:
+
+purchase timestamp
+
+validity: 1 month or 3 months
+
+Consumption is FIFO (oldest unexpired lot first).
+
+Expired credits are not usable.
+
+Students:
+
+can only register (consume 1 credit)
+or cancel registration
+up to 2 hours before the lesson
+
+cannot register or cancel afterwards
+
+Teacher:
+
+adds students
+
+adds purchases (lots)
+
+sees registrations
+
+can cancel a registration
+
+clears registrations after lesson
+
+can extend validity for all still valid lots by the same amount e.g. if teacher has sick days
+
+All financial/usage history must be preserved.
+
+Data model (D1 / SQLite)
+students
+
+id (INTEGER PK)
+
+token (TEXT UNIQUE, secret)
+
+name (TEXT)
+
+created_at (DATETIME)
+
+lots
+
+id (INTEGER PK)
+
+student_id (FK)
+
+purchased_at (DATETIME)
+
+validity_months (INTEGER: 1 or 3)
+
+expires_at (DATETIME)
+
+credits_total (INTEGER)
+
+credits_remaining (INTEGER)
+
+lesson_events
+
+id (INTEGER PK)
+
+starts_at (DATETIME)
+
+registrations
+
+id (INTEGER PK)
+
+student_id
+
+lesson_id
+
+consumed_lot_id
+
+registered_at
+
+UNIQUE(student_id, lesson_id)
+
+ledger_events (append-only)
+
+id (INTEGER PK AUTOINCREMENT)
+
+student_id
+
+ts (DATETIME)
+
+type (PURCHASE | REGISTER | EXPIRE | ADJUST | EXTEND | OLDEST)
+
+delta_credits (INTEGER)
+
+balance_after (INTEGER)
+
+ref_lot_id (nullable)
+
+ref_lesson_id (nullable)
+
+Ledger invariants
+
+Ledger is append-only
+
+NO UPDATE or DELETE allowed on ledger_events
+
+Use SQLite triggers to forbid UPDATE/DELETE
+
+oldest marks a specified event
+and means that all lots before this event
+are expired and do not affect current balance.
+
+Backend (Cloudflare Worker)
+Endpoints (JSON only)
+Public (student)
+
+GET /status?t=TOKEN
+
+returns:
+
+student name
+
+total available credits (non-expired)
+
+next lesson datetime
+
+whether registered
+
+GET /status?t=TOKEN&ledger
+
+returns the total history for this student
+
+POST /register?t=TOKEN
+
+idempotent
+
+atomically:
+
+expire lots if needed
+
+check registration uniqueness
+
+consume 1 credit FIFO
+
+append ledger event
+
+create registration
+
+Admin (requires admin token)
+
+POST /admin/addStudent
+
+POST /admin/addPurchase
+
+POST /admin/setNextLesson
+
+POST /admin/clearRegistrations
+
+GET /admin/list
+
+Backend requirements
+
+Use SQL transactions
+
+Enforce FIFO
+
+Enforce expiry lazily (no cron)
+
+Never trust client input
+
+Never update or delete ledger rows
+
+CORS enabled for Pages
+
+Frontend (Pages)
+Student UI
+
+Single screen
+
+Shows:
+
+credits available
+
+next lesson time
+
+registration open/closed status
+
+registration status
+
+Button:
+
+“Register for next lesson”
+
+Button:
+
+“Cancel registration for next lesson”
+
+Optional:
+
+“Add to calendar” (.ics generation)
+
+Teacher UI
+
+Simple admin screen
+
+Add student → generate token
+
+Add purchase (credits + validity)
+
+View registrations
+
+Clear registrations
+
+View students
+
+Share button to share (on desktop-copy) student link
+
+PWA
+
+Provide manifest.json
+
+Provide minimal service-worker.js
+
+Installable on iOS and Android
+
+Deliverables
+
+Output all files needed:
+
+Worker source code
+
+SQL schema (with triggers)
+
+Frontend HTML/CSS/JS
+
+PWA files
+
+wrangler.toml
+
+README with:
+
+local dev steps
+
+deploy steps
+
+how tokens work
+
+Keep code small, explicit, and boring.
+Correctness > cleverness.
+Assume low traffic, but no race conditions allowed.
+
+Assume free tier on cloudflare only.
+
+End prompt
+
+As a first step,
+Generate a full documentation of the architecture in architecture.md
+and the implementation plan in implementation.md
+
+I have already logged in with wrangler
+

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4efe6" />
+  <title>Solo Tango Pass - Teacher</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="ambient"></div>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Solo Tango</p>
+        <h1>Teacher Console</h1>
+        <p class="subtitle">Manage students, passes, and lessons.</p>
+      </div>
+      <div class="chip" id="api-chip"></div>
+    </header>
+
+    <section class="panel" id="admin-panel">
+      <div class="panel-header">
+        <h2>Teacher Admin</h2>
+        <span class="tag" id="admin-status">Token required</span>
+      </div>
+
+      <div class="admin-grid">
+        <div class="card">
+          <h3>Admin Token</h3>
+          <div class="field-row">
+            <input id="admin-token" type="password" placeholder="Admin token" />
+            <button id="toggle-admin-token" class="ghost" type="button">Show</button>
+          </div>
+          <button id="save-admin-token">Save token</button>
+        </div>
+
+        <div class="card">
+          <h3>API Base</h3>
+          <input id="api-base" type="text" placeholder="https://worker.example.workers.dev" />
+          <button id="save-api-base">Save API base</button>
+        </div>
+
+        <div class="card">
+          <h3>Add Student</h3>
+          <input id="student-name-input" type="text" placeholder="Student name" />
+          <button id="add-student-btn">Add student</button>
+          <div class="helper" id="new-student-token"></div>
+          <button id="copy-student-link" class="ghost">Copy student link</button>
+        </div>
+
+        <div class="card">
+          <h3>Add Purchase</h3>
+          <select id="purchase-student-id"></select>
+          <input id="purchase-credits" type="number" placeholder="Credits" />
+          <select id="purchase-validity">
+            <option value="1">1 month</option>
+            <option value="3">3 months</option>
+          </select>
+          <button id="add-purchase-btn">Add purchase</button>
+        </div>
+
+        <div class="card">
+          <h3>Set Next Lesson</h3>
+          <input id="lesson-starts" type="datetime-local" />
+          <button id="set-lesson-btn">Set lesson</button>
+        </div>
+
+        <div class="card">
+          <h3>Extend Validity</h3>
+          <input id="extend-days" type="number" placeholder="Days" />
+          <button id="extend-btn">Extend</button>
+        </div>
+
+        <div class="card">
+          <h3>Cancel Registration</h3>
+          <input id="cancel-student-id" type="number" placeholder="Student ID" />
+          <input id="cancel-lesson-id" type="number" placeholder="Lesson ID" />
+          <button id="cancel-registration-btn">Cancel registration</button>
+        </div>
+
+        <div class="card">
+          <h3>Export Ledger</h3>
+          <button id="export-ledger-btn">Export to backup</button>
+          <button id="backup-status-btn" class="ghost">Latest backup</button>
+          <div class="helper" id="export-result"></div>
+        </div>
+      </div>
+
+      <div class="admin-list">
+        <div class="panel-header">
+          <h3>Current Overview</h3>
+          <button id="refresh-admin-btn" class="ghost">Refresh</button>
+        </div>
+        <div class="overview" id="student-overview"></div>
+        <pre class="ledger" id="admin-list"></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <a href="/">Back to student view</a>
+    </footer>
+  </main>
+
+  <script src="/config.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
